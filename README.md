@@ -1,1 +1,1 @@
-# taxi-demand-repo
+# NYC 뉴욕 택시 수요 예측 프로젝트
