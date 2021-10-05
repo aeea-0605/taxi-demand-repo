@@ -1,0 +1,14 @@
+local: &local
+  project: insert your google cloud project-id
+  jwt: insert yout IAM web token key file name
+  dataset: taxi_demand_local
+  save_folder: .
+
+development:
+  <<: *local
+
+production:
+  project: insert your google cloud project-id
+  jwt: insert yout IAM web token key file name
+  dataset: taxi_demand_prod
+  save_folder: /home/airflow/gcs/data/taxi-demand-prediction
