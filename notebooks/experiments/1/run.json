@@ -1,0 +1,87 @@
+{
+  "artifacts": [],
+  "command": "run",
+  "experiment": {
+    "base_dir": "/Users/aeea/Desktop/git/project/taxi-demand-repo/notebooks",
+    "dependencies": [
+      "beautifulsoup4==4.9.3",
+      "ipython==7.22.0",
+      "matplotlib==3.4.1",
+      "numpy==1.20.3",
+      "pandas==1.2.4",
+      "requests==2.25.1",
+      "sacred==0.8.2",
+      "scikit-learn==0.24.2",
+      "scipy==1.6.3",
+      "seaborn==0.11.1",
+      "selenium==3.141.0",
+      "statsmodels==0.12.2",
+      "xgboost==1.4.2"
+    ],
+    "mainfile": null,
+    "name": "nyc-demand-prediction",
+    "repositories": [
+      {
+        "commit": "08e8019d854074b0db745c72232c877fc9012bf2",
+        "dirty": true,
+        "url": "https://github.com/aeea-0605/taxi-demand-repo.git"
+      }
+    ],
+    "sources": [
+      [
+        "utils.py",
+        "_sources/utils_39d99b69ea9e38c27fb3ab3d0fb30e34.py"
+      ]
+    ]
+  },
+  "heartbeat": "2021-10-07T07:16:17.741266",
+  "host": {
+    "ENV": {},
+    "cpu": "Apple M1",
+    "hostname": "iseungjuui-MacBookPro.local",
+    "os": [
+      "Darwin",
+      "macOS-11.5.2-arm64-arm-64bit"
+    ],
+    "python_version": "3.8.8"
+  },
+  "meta": {
+    "command": "run",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false
+    }
+  },
+  "resources": [],
+  "result": {
+    "mae": {
+      "score": 37.741028877026224
+    },
+    "mape": {
+      "score": 240.04097885180414
+    },
+    "mse": {
+      "score": 12603.220104338488
+    }
+  },
+  "start_time": "2021-10-07T07:11:58.656097",
+  "status": "COMPLETED",
+  "stop_time": "2021-10-07T07:16:15.733366"
+}

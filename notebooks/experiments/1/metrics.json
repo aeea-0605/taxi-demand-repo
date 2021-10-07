@@ -1,0 +1,59 @@
+{
+  "model_name": {
+    "steps": [
+      0
+    ],
+    "timestamps": [
+      "2021-10-07T07:16:15.732874"
+    ],
+    "values": [
+      "XGBRegressor"
+    ]
+  },
+  "model_params": {
+    "steps": [
+      0
+    ],
+    "timestamps": [
+      "2021-10-07T07:16:15.732886"
+    ],
+    "values": [
+      {
+        "colsample_bytree": 1.0,
+        "learning_rate": 0.1,
+        "max_depth": 7,
+        "min_child_weight": 3.0,
+        "n_estimators": 500
+      }
+    ]
+  },
+  "score": {
+    "steps": [
+      0
+    ],
+    "timestamps": [
+      "2021-10-07T07:16:15.732889"
+    ],
+    "values": [
+      {
+        "meta": {
+          "column_level_names": [
+            null
+          ],
+          "dtypes": {
+            "mae": "float64",
+            "mape": "float64",
+            "mse": "float64"
+          },
+          "header": [
+            0
+          ],
+          "index": "{\"py/object\": \"pandas.core.indexes.base.Index\", \"values\": \"[\\\"score\\\"]\", \"txt\": true, \"meta\": {\"dtype\": \"object\", \"name\": null}}"
+        },
+        "py/object": "pandas.core.frame.DataFrame",
+        "txt": true,
+        "values": "mape,mae,mse\n240.04097885180414,37.741028877026224,12603.220104338488\n"
+      }
+    ]
+  }
+}

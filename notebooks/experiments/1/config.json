@@ -1,0 +1,35 @@
+{
+  "colsample_bytree": [
+    0.5,
+    0.75,
+    1.0
+  ],
+  "learning_rate": [
+    0.01,
+    0.1
+  ],
+  "max_depth": [
+    3,
+    5,
+    7
+  ],
+  "min_child_weight": [
+    1.0,
+    3.0
+  ],
+  "n_estimators": {
+    "py/reduce": [
+      {
+        "py/type": "builtins.range"
+      },
+      {
+        "py/tuple": [
+          100,
+          900,
+          100
+        ]
+      }
+    ]
+  },
+  "seed": 892345435
+}
