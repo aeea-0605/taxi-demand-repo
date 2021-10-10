@@ -26,12 +26,16 @@ def split_train_and_test_period(df, period):
 
 def evaluation(y_true, y_pred): 
     y_true, y_pred = np.array(y_true), np.array(y_pred)
-    mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
-    mae = mean_absolute_error(y_true, y_pred)
-    mse = mean_squared_error(y_true, y_pred)
-    score = pd.DataFrame([mape, mae, mse], index=['mape', 'mae', 'mse'], columns=['score']).T
-
-    return score
+    try:
+        mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+        mae = mean_absolute_error(y_true, y_pred)
+        mse = mean_squared_error(y_true, y_pred)
+        
+        score = pd.DataFrame([mape, mae, mse], index=['mape', 'mae', 'mse'], columns=['score']).T
+        
+        return score
+    except:
+        return None
 
 
 def split_x_and_y(train_df, test_df, y):
@@ -59,7 +63,7 @@ def split_x_and_y_log(train_df, test_df, y):
     x_train = train_df.copy()
     x_test = test_df.copy()
     
-    return x_train, x_test, y_train_log, y_test_raw
+    return x_train, x_test, y_train_log, y_test_raw, y_test_log
 
 
 def parsing_output(ex_id):
