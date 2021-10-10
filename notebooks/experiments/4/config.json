@@ -1,7 +1,8 @@
 {
-  "booster": [
-    "gbtree",
-    "gblinear"
+  "boosting_type": [
+    "rf",
+    "gbdt",
+    "goss"
   ],
   "colsample_bytree": [
     0.5,
@@ -93,7 +94,7 @@
     700,
     1000
   ],
-  "seed": 327266514,
+  "seed": 799376728,
   "subsample": [
     0.5,
     0.75,

@@ -4,7 +4,7 @@
       0
     ],
     "timestamps": [
-      "2021-10-07T08:19:23.731129"
+      "2021-10-09T10:01:38.879141"
     ],
     "values": [
       "XGBRegressor"
@@ -15,15 +15,17 @@
       0
     ],
     "timestamps": [
-      "2021-10-07T08:19:23.731144"
+      "2021-10-09T10:01:38.879154"
     ],
     "values": [
       {
-        "colsample_bytree": 0.75,
-        "learning_rate": 0.01,
-        "max_depth": 7,
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "learning_rate": 0.05,
+        "max_depth": 11,
         "min_child_weight": 1.0,
-        "n_estimators": 400
+        "n_estimators": 1000,
+        "subsample": 0.5
       }
     ]
   },
@@ -32,7 +34,7 @@
       0
     ],
     "timestamps": [
-      "2021-10-07T08:19:23.731147"
+      "2021-10-09T10:01:38.879156"
     ],
     "values": [
       {
@@ -50,8 +52,9 @@
           ],
           "index": "{\"py/object\": \"pandas.core.indexes.base.Index\", \"values\": \"[\\\"score\\\"]\", \"txt\": true, \"meta\": {\"dtype\": \"object\", \"name\": null}}"
         },
+        "py/object": "pandas.core.frame.DataFrame",
         "txt": true,
-        "values": "mape,mae,mse\n446.72255350854346,131.49225080573888,103649.73129469037\n"
+        "values": "mape,mae,mse\n157.25449150510462,34.77152604375481,11397.454287826673\n"
       }
     ]
   }

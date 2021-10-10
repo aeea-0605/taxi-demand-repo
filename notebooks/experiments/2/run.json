@@ -22,7 +22,7 @@
     "name": "nyc-demand-prediction",
     "repositories": [
       {
-        "commit": "08e8019d854074b0db745c72232c877fc9012bf2",
+        "commit": "e6e0c21fadafab88955b4e84afbf5fb87a9b6905",
         "dirty": true,
         "url": "https://github.com/aeea-0605/taxi-demand-repo.git"
       }
@@ -30,11 +30,11 @@
     "sources": [
       [
         "utils.py",
-        "_sources/utils_fac65372842557dc9407d9b1963cdab0.py"
+        "_sources/utils_f06475a2fee983e2adbd39a4ba2af53c.py"
       ]
     ]
   },
-  "heartbeat": "2021-10-07T08:19:25.739312",
+  "heartbeat": "2021-10-09T10:01:38.881521",
   "host": {
     "ENV": {},
     "cpu": "Apple M1",
@@ -72,16 +72,16 @@
   "resources": [],
   "result": {
     "mae": {
-      "score": 131.49225080573888
+      "score": 34.77152604375481
     },
     "mape": {
-      "score": 446.72255350854346
+      "score": 157.25449150510462
     },
     "mse": {
-      "score": 103649.73129469037
+      "score": 11397.454287826673
     }
   },
-  "start_time": "2021-10-07T08:16:14.391318",
+  "start_time": "2021-10-09T09:52:46.041857",
   "status": "COMPLETED",
-  "stop_time": "2021-10-07T08:19:23.731840"
+  "stop_time": "2021-10-09T10:01:38.879615"
 }
