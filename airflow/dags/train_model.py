@@ -19,7 +19,7 @@ default_args = {
 bash_command = "python3 /home/airflow/gcs/data/taxi-demand-prediction/main.py --mode train --dev_env production"
 
 with DAG(
-        dag_id='Train-taxi_demand_every_week',
+        dag_id='Train-taxi_demand_every_midnight',
         description='Train taxi demand',
         schedule_interval='0 0 * * *',
         default_args=default_args) as dag:
