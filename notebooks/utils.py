@@ -15,8 +15,11 @@ def split_train_and_test_period(df, period):
     Dataframe에서 train_df, test_df로 나눠주는 함수
     
     df : 시계열 데이터 프레임
-    period : train/test 기준 일
+    period : 기간에 따른train/test split
+
+    return : 기준 period에 따른 train_df, test_df
     """
+
     criteria = str((max(df['pickup_hour']) - pd.Timedelta(days=period)).date())
     train_df = df[df['pickup_hour'] < criteria]
     test_df = df[df['pickup_hour'] >= criteria]
@@ -24,7 +27,13 @@ def split_train_and_test_period(df, period):
     return train_df, test_df
 
 
-def evaluation(y_true, y_pred): 
+def evaluation(y_true, y_pred):
+    """
+    실제값과 예측값에 대한 mape, mae, mse의 metric값을 데이터프레임 형태로 리턴해주는 함수
+
+    return : metrics에 대한 score_df, error 발생시 None
+    """
+
     y_true, y_pred = np.array(y_true), np.array(y_pred)
     try:
         mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
@@ -39,6 +48,13 @@ def evaluation(y_true, y_pred):
 
 
 def split_x_and_y(train_df, test_df, y):
+    """
+    train, test 데이터셋을 인자로 받아 독립변수와 종속변수로 Split하는 함수
+    해당 함수는 raw_target 데이터셋에 적용되는 함수
+
+    return : x_train, x_test, y_train_raw, y_test_raw
+    """
+
     train_df.drop(columns=['zip_code', 'pickup_hour'], inplace=True)
     test_df.drop(columns=['zip_code', 'pickup_hour'], inplace=True)
     
@@ -52,6 +68,13 @@ def split_x_and_y(train_df, test_df, y):
     
     
 def split_x_and_y_log(train_df, test_df, y):
+    """
+    train, test 데이터셋을 인자로 받아 독립변수와 종속변수로 Split하는 함수
+    해당 함수는 log scaling된 데이터셋에 적용되는 함수
+
+    return : x_train, x_test, y_train_log, y_test_raw, y_test_log
+    """
+
     train_df.drop(columns=['zip_code', 'pickup_hour'], inplace=True)
     test_df.drop(columns=['zip_code', 'pickup_hour'], inplace=True)
     
@@ -67,9 +90,15 @@ def split_x_and_y_log(train_df, test_df, y):
 
 
 def parsing_output(ex_id):
-    with open(f'./experiments/{ex_id}/metrics.json') as metric_file:
+    """
+    sacred로 기록된 experiment_id를 인자로 받아 해당 모델링 결과를 데이터프레임 형태로 리턴하는 함수
+
+    return : model_name, ex_id, model_config, metrics에 대한 output_df
+    """
+    
+    with open(f'../airflow/data/taxi-demand-prediction/experiments/{ex_id}/metrics.json') as metric_file:
         metric_data = json.load(metric_file)
-    with open(f'./experiments/{ex_id}/run.json') as run_file:
+    with open(f'../airflow/data/taxi-demand-prediction/experiments/{ex_id}/run.json') as run_file:
         run_data = json.load(run_file)
     
     output_df = pd.DataFrame(metric_data['model_name']['values'], columns=['model_name'], index=['score'])
