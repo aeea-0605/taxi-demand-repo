@@ -17,7 +17,7 @@ default_args = {
 }
 
 with DAG(
-        dag_id='Predict-taxi_demand_every_week',
+        dag_id='Predict-taxi_demand_every_3hours',
         description='Predict taxi demand',
         schedule_interval='0 */3 * * *',
         default_args=default_args) as dag:
