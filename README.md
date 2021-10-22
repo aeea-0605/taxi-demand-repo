@@ -18,7 +18,7 @@
 
 ### **1-3. 기술적 Summary**
 - BigQuery를 사용한 데이터 ETL
-- Simple Regresor를 사용한 Baseline 설정
+- Simple Regressor를 사용한 Baseline 설정
 - Ensemble Model, RandomizedGridSearchCV를 사용한 Hyper Parameter Tuning
 - Shap을 사용한 Feature에 대한 영향력 분석
 - sacred를 사용한 모델링 결과 log 기록
@@ -122,7 +122,7 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 <img width="807" alt="스크린샷 2021-10-21 오후 11 36 31" src="https://user-images.githubusercontent.com/80459520/138300290-0c74515b-1642-4049-ac1e-224ffe7f1729.png">
 
 - datetime : 26~28일에 실제값이 예측값에 현저히 못미치며 큰 차이 발생
-- hour : 새벽엔 거의 유사하지만, 7~20시까지 실제값에 비해 예측값이 높게 측정
+- hour : 새벽엔 거의 유사하지만, 7~24시까지 실제값에 비해 예측값이 높게 측정
 - weekday : 월, 화에 실제값보다 예측값이 높게 측정
 - 평일/주말 : 주말보다 평일의 예측성능이 낮음
 
@@ -179,3 +179,42 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 ---
 ## 3. Airflow 결과
 <br/>
+
+### **DAGs History - Tree View**
+- Run Period : UTC 기준 2021-10-19 09:10:00 까지
+- default_timezone을 Asia/Seoul로 설정했기에 dag history의 시간은 서울시간으로 기록됨
+
+#### **Train DAG**
+> [train_model.py](https://github.com/aeea-0605/taxi-demand-repo/blob/main/airflow/dags/train_model.py)
+- schedule_interval : 매일 자정 (cron : 0 0 * * *)
+- task sequence : `train_operator`(training model) >> `complete_task`(print modeling done message)
+
+<img width="359" alt="스크린샷 2021-10-19 오후 6 43 12" src="https://user-images.githubusercontent.com/80459520/138395910-6acdca6c-989c-4e7e-8c05-df5cf60f0a70.png">
+
+- 2021-10-18 00:00:00 UTC 에 1건의 Train 완료
+
+#### **Predict DAG**
+> [predict_model.py](https://github.com/aeea-0605/taxi-demand-repo/blob/main/airflow/dags/predict_model.py)
+- schedule_interval : 3시간 마다 (cron : 0 */3 * * *)
+- task sequence : `predict_operator`(predict output) >> `complete_task`(print predict done message)
+
+<img width="472" alt="스크린샷 2021-10-19 오후 6 42 33" src="https://user-images.githubusercontent.com/80459520/138396538-a7fc8ecf-8aae-43b2-bd0d-b9b5fe2be634.png">
+
+- 2021-10-18 00:00:00 UTC ~ 2021-10-19 06:00:00 UTC 까지 총 11건의 Predict 완료
+
+< BigQuery에 predict output Load >
+
+<img width="249" alt="스크린샷 2021-10-22 오후 2 19 50" src="https://user-images.githubusercontent.com/80459520/138397367-899fba51-3ffd-4b36-9d5c-817bb5dbe14a.png">
+
+- 한 건의 Predict dag의 Input Data에 대응하는 택시 예상 수요에 대한 결과를 BigQuery에 Load
+
+<br/>
+
+---
+---
+## 💡 제언
+- datetime에 따른 수요 예측은 시계열 분석에 대한 방향성이 짙기 때문에 과거 수요 데이터를 반영해 Ensemble 모델링을 진행했지만, fbprophet 모델을 이나 LSTM 모델을 통해 ML&DL을 하는 것도 또 하나의 예측 방법이라고 생각합니다.
+- datetime을 제외한 Target변수를 설명할 수 있는 다른 데이터가 존재한다면 더 좋은 성능 및 결론을 도출할 수 있을 것으로 생각됩니다.
+
+---
+---
