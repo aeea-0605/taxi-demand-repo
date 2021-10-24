@@ -61,9 +61,13 @@ BigQuery에서 제공하는 데이터셋 사용
     - 주말이 평일보다 새벽의 수요가 많다.
     - 평일은 아침, 주말은 점심에 상대적으로 수요가 많다.
 
+<br/>
+
 #### **Distance**
 - 단거리 Peak Time : 오후 6~10시에 수요가 많다.
 - 장거리 Peak Time : 오후 1~3시에 수요가 많다.
+
+<br/>
 
 #### **Region**
 - 수요가 가장 많은 zip-code는 10002이며, 지역마다 수요의 편차가 크다.
@@ -77,6 +81,8 @@ BigQuery에서 제공하는 데이터셋 사용
     - 범주형 변수에 대한 전처리 (One-Hot Encoding)
     - Train, Test 데이터셋 세분화 및 Features와 Target 분리
 
+<br/>
+
 #### **Baseline 진행방향**
 - Target의 분포를 확인해 log scaling 여부 판단
 
@@ -89,11 +95,15 @@ BigQuery에서 제공하는 데이터셋 사용
 ![image](https://user-images.githubusercontent.com/80459520/138265731-c28e4812-f03d-478f-bedb-e61b1d95709e.png)
 - 비대칭도가 심하게 왼쪽으로 기울어져 있기 떄문에 Log scaling을 적용하는 것이 모델의 예측성능이 더 좋을 것이라고 판단.
 
+<br/>
+
 #### **Baseline Simple Regression**
 - One-Hot Encoding 적용 X
     - MSE : 103723, 시간과 요일에 대한 Feature Inportance가 높음.
 - One-Hot Encoding 적용
     - MSE : 27045, 결과에 대한 Feature 해석 모호
+
+<br/>
 
 #### **모델링 진행방향**
 One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호함. 따라서 한 차원에서 범주형 전처리를 하는 방향으로 결정
@@ -114,10 +124,14 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
     - 5. Raw Target, Random Forest
 - RandomizedGridSearchCV를 사용해 200번의 task, 3번의 교차검증을 진행
 
+<br/>
+
 #### **Modeling history**
 <img width="738" alt="스크린샷 2021-10-21 오후 11 41 19" src="https://user-images.githubusercontent.com/80459520/138301215-da3a9157-94ed-4140-8735-03ae570812a7.png">
 
 - Best Model : MSE가 11397.45로, Experiment_2인 Log scaled Target, XGBoost가 선정
+
+<br/>
 
 #### **Best model의 실제값과 예측값 비교를 통한 성능 평가**
 <img width="807" alt="스크린샷 2021-10-21 오후 11 36 31" src="https://user-images.githubusercontent.com/80459520/138300290-0c74515b-1642-4049-ac1e-224ffe7f1729.png">
@@ -126,6 +140,8 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 - hour : 새벽엔 거의 유사하지만, 7~24시까지 실제값에 비해 예측값이 높게 측정
 - weekday : 월, 화에 실제값보다 예측값이 높게 측정
 - 평일/주말 : 주말보다 평일의 예측성능이 낮음
+
+<br/>
 
 #### **Feature Engineering 진행방향**
 수요가 갑자기 떨어진 기간에 대해서는 예측이 안되는 것을 알 수 있다. (특정 Event에 대해 예측력이 떨어짐)
@@ -141,10 +157,14 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
     - final model 또한 best model의 모델, 파라미터와 동일
 - 다양한 관점에서 모델의 결과 분석 진행
 
+<br/>
+
 #### **Final Model의 metric 성능 평가**
 <img width="235" alt="스크린샷 2021-10-22 오전 12 06 49" src="https://user-images.githubusercontent.com/80459520/138305845-e7dbd2e7-a0cb-486b-a271-939bbb37a367.png">
 
 - MSE 기준 모델의 성능 변화 : 103723 > 27045 > 11397 > 919
+
+<br/>
 
 #### **Shap-value를 통한 Feature Impact 분석**
 
@@ -155,6 +175,8 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 - 범주형 변수인 `zip_code_le`는 Target에 대해 음의 영향력을 준다.
 - 두 그래프를 비교해보았을 때, `std_7d_cnt`, `day` 특성은 feature value에 따른 shap value의 상관성이 모호해 해석의 모호성이 존재한다.
 
+<br/>
+
 < SHAP Dependence Plot >
 <img width="794" alt="스크린샷 2021-10-22 오전 1 02 04" src="https://user-images.githubusercontent.com/80459520/138314971-caf65acf-8ede-4ab6-9f45-e2ddb353848c.png">
 
@@ -163,11 +185,15 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 - `lag_1d_cnt` : 상관성이 강한 변수는 `lag_1h_cnt`이며, lag_1h_cnt값이 높을 때 Target에 대해 영향력이 낮다.
 - `zip_code_le` : 상관성이 강한 변수는 `hour`이며, hour값이 높을 때 50근처에 있는 지역들은 Target에 대해 영향력이 크다.
 
+<br/>
+
 #### **Final model의 실제값과 예측값 비교를 통한 성능 평가**
 <img width="802" alt="스크린샷 2021-10-22 오전 1 08 59" src="https://user-images.githubusercontent.com/80459520/138316042-6e0a6357-a9e6-43cf-9526-1753a2440db3.png">
 
 - Best model의 성능 평가 결과와 비교했을 떄, 전반적으로 실제값과 비슷하게 예측이 된다는 것을 알 수 있다.
 - 특정 Event에 대응할 수 있는 예측성능을 보유
+
+<br/>
 
 #### **Google Composer - Airflow 진행방향**
 - Train, Predict에 대한 2개의 dags 구성
@@ -185,6 +211,8 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 - Run Period : UTC 기준 2021-10-19 09:10:00 까지
 - default_timezone을 Asia/Seoul로 설정했기에 dag history의 시간은 서울시간으로 기록됨
 
+<br/>
+
 #### **Train DAG**
 > [train_model.py](https://github.com/aeea-0605/taxi-demand-repo/blob/main/airflow/dags/train_model.py)
 - schedule_interval : 매일 자정 (cron : 0 0 * * *)
@@ -194,6 +222,8 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 
 - 2021-10-18 00:00:00 UTC 에 1건의 Train 완료
 
+<br/>
+
 #### **Predict DAG**
 > [predict_model.py](https://github.com/aeea-0605/taxi-demand-repo/blob/main/airflow/dags/predict_model.py)
 - schedule_interval : 3시간 마다 (cron : 0 */3 * * *)
@@ -202,6 +232,8 @@ One-Hot Encoding을 진행했을 때 성능은 좋아지지만 해석이 모호�
 <img width="472" alt="스크린샷 2021-10-19 오후 6 42 33" src="https://user-images.githubusercontent.com/80459520/138396538-a7fc8ecf-8aae-43b2-bd0d-b9b5fe2be634.png">
 
 - 2021-10-18 00:00:00 UTC ~ 2021-10-19 06:00:00 UTC 까지 총 11건의 Predict 완료
+
+<br/>
 
 < BigQuery에 predict output Load >
 
